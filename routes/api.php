@@ -13,6 +13,12 @@ use App\Http\Controllers\Teacher\ObjectionController as TeacherObjectionControll
 use App\Http\Controllers\Student\ExamController as StudentExamController;
 use App\Http\Controllers\Student\ObjectionController as StudentObjectionController;
 
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\Teacher\StudentController as TeacherStudentController;
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +32,7 @@ use App\Http\Controllers\Student\ObjectionController as StudentObjectionControll
 */
 
 // Auth routes
-route::post('register',[RegisterController::class, 'register']);
+// route::post('register',[RegisterController::class, 'register']);
 Route::post('verify-email', [RegisterController::class, 'verifyEmail']);
 Route::middleware('throttle:2,10')->post('resend-verification-code',[RegisterController::class,'resendVerificationCode'])
     ->name('resend.verification.code');;
@@ -50,12 +56,41 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
+Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+    Route::post('register', [RegisterController::class, 'register']);
+});
+
+
+Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(function () {
+    Route::post('register', [RegisterController::class, 'register']);
+
+    Route::get('teachers', [AdminUserController::class, 'indexTeachers']);
+    Route::get('students', [AdminUserController::class, 'indexStudents']);
+
+    Route::get('teachers/{id}', [AdminUserController::class, 'showTeacher']);
+    Route::get('students/{id}', [AdminUserController::class, 'showStudent']);
+
+    Route::post('users', [AdminUserController::class, 'store']);
+    Route::patch('users/{id}/toggle-active', [AdminUserController::class, 'toggleActive']);
+});
+
+
 Route::middleware(['auth:sanctum', 'role:teacher'])->prefix('teacher')->group(function () {
+    // Students helper
+    Route::get('students', [TeacherStudentController::class, 'index']);
+    Route::get('students/{id}', [TeacherStudentController::class, 'show']);
+
     // Question banks
     Route::get('question-banks', [QuestionBankController::class, 'index']);
     Route::post('question-banks', [QuestionBankController::class, 'store']);
     Route::put('question-banks/{id}', [QuestionBankController::class, 'update']);
     Route::delete('question-banks/{id}', [QuestionBankController::class, 'destroy']);
+
+    Route::get('question-banks/{id}', [QuestionBankController::class, 'show']);
+
+    Route::get('questions', [QuestionBankController::class, 'indexQuestions']);
+
+    Route::get('questions/{id}', [QuestionBankController::class, 'showQuestion']);
 
     // Questions
     Route::post('questions', [QuestionBankController::class, 'storeQuestion']);
@@ -83,4 +118,10 @@ Route::middleware(['auth:sanctum', 'role:student'])->prefix('student')->group(fu
 
     // Objections
     Route::post('objections', [StudentObjectionController::class, 'store']);
+});
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('subjects', [SubjectController::class, 'index']);
+    Route::get('subjects/{id}', [SubjectController::class, 'show']);
 });

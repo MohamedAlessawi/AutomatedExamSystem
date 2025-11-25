@@ -33,4 +33,20 @@ class QuestionRepository
         $question = Question::findOrFail($id);
         return (bool) $question->delete();
     }
+
+    public function getForTeacher(int $teacherId, ?int $subjectId = null, ?int $bankId = null)
+    {
+        return \App\Models\Question::whereHas('questionBank', function ($q) use ($teacherId, $bankId) {
+                $q->where('teacher_id', $teacherId);
+                if ($bankId) {
+                    $q->where('id', $bankId);
+                }
+            })
+            ->when($subjectId, function ($q) use ($subjectId) {
+                $q->where('subject_id', $subjectId);
+            })
+            ->with(['options', 'questionBank'])
+            ->get();
+    }
+
 }

@@ -62,6 +62,12 @@ class LoginLogoutService
             'access_token' => $token,
             'refresh_token' => $refreshToken,
             'token_type' => 'Bearer',
+            'user' => [
+                'id'        => $user->id,
+                'full_name' => $user->full_name,
+                'email'     => $user->email,
+                'role'      => $user->role,   // 👈 هون
+            ],
         ], [], 200);
     }
 

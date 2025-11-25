@@ -23,4 +23,15 @@ class UserRepository
         return User::where('email', $credential)->orWhere('phone', $credential)->first();
     }
 
+    public function getByRole(string $role)
+    {
+        return User::where('role', $role)->get();
+    }
+
+    public function findByIdAndRole(int $id, string $role): ?User
+    {
+        return User::where('id', $id)->where('role', $role)->first();
+    }
+
+
 }

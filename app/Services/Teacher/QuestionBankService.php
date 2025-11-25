@@ -201,5 +201,42 @@ class QuestionBankService
             return $this->unifiedResponse(false, 'Failed to delete question.', [], [$e->getMessage()], 500);
         }
     }
+    
+    public function showBank(int $bankId, int $teacherId)
+    {
+        $bank = $this->bankRepo->findWithQuestions($bankId);
+
+        if (!$bank || $bank->teacher_id !== $teacherId) {
+            return $this->unifiedResponse(false, 'Question bank not found.', [], [], 404);
+        }
+
+        return $this->unifiedResponse(true, 'Question bank details.', $bank);
+    }
+
+    public function listQuestions($request, int $teacherId)
+    {
+        $subjectId = $request->query('subject_id');
+        $bankId    = $request->query('question_bank_id');
+
+        $questions = $this->questionRepo->getForTeacher($teacherId, $subjectId, $bankId);
+
+        return $this->unifiedResponse(true, 'Questions list.', $questions);
+    }
+
+    public function showQuestion(int $questionId, int $teacherId)
+    {
+        $question = $this->questionRepo->findWithOptions($questionId);
+
+        if (
+            !$question ||
+            !$question->questionBank ||
+            $question->questionBank->teacher_id !== $teacherId
+        ) {
+            return $this->unifiedResponse(false, 'Question not found.', [], [], 404);
+        }
+
+        return $this->unifiedResponse(true, 'Question details.', $question);
+    }
+
 
 }

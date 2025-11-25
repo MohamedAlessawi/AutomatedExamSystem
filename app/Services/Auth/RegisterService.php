@@ -3,6 +3,7 @@ namespace App\Services\Auth;
 
 use App\Models\User;
 use App\Models\UserVerify;
+use App\Models\TeacherProfile;
 use App\Traits\ApiResponseTrait;
 use App\Repositories\UserRepository;
 use App\Traits\FileUploadTrait;
@@ -39,13 +40,26 @@ class RegisterService
                 'password'      => Hash::make($request->password),
                 'profile_photo' => $profilePhotoPath['path'] ?? null,
                 'ip_address'    => $request->ip(),
+                'role'          => $request->role,
             ];
+
 
             Log::info('Registration 2:', $userData);
 
             $user = $this->userRepository->create($userData);
             // أو:
             // $user = User::create($userData);
+
+
+            if ($user->role === 'teacher') {
+                TeacherProfile::create([
+                    'user_id' => $user->id,
+                ]);
+            } elseif ($user->role === 'student') {
+                StudentProfile::create([
+                    'user_id' => $user->id,
+                ]);
+            }
 
             $code = Str::random(6);
             UserVerify::create([

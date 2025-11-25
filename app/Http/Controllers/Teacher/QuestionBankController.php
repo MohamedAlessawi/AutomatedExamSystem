@@ -91,4 +91,23 @@ class QuestionBankController extends Controller
     {
         return $this->service->deleteQuestion($request->user()->id, (int)$id);
     }
+
+    // GET /api/teacher/question-banks/{id}
+    public function show($id, Request $request)
+    {
+        return $this->service->showBank((int)$id, $request->user()->id);
+    }
+
+    // GET /api/teacher/questions  (?subject_id=&question_bank_id=)
+    public function indexQuestions(Request $request)
+    {
+        return $this->service->listQuestions($request, $request->user()->id);
+    }
+
+    // GET /api/teacher/questions/{id}
+    public function showQuestion($id, Request $request)
+    {
+        return $this->service->showQuestion((int)$id, $request->user()->id);
+    }
+
 }

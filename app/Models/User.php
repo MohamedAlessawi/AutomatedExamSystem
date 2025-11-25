@@ -24,6 +24,7 @@ class User extends Authenticatable
         'profile_photo',
         'password',
         'ip_address',
+        'role',
         'two_factor_enabled',
     ];
 
