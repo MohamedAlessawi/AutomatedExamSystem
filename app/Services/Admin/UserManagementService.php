@@ -6,6 +6,8 @@ use App\Repositories\UserRepository;
 use App\Services\Auth\RegisterService;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Support\Facades\Validator;
+use App\Models\StudentProfile;
+
 
 class UserManagementService
 {

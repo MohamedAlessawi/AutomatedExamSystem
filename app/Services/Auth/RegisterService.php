@@ -4,6 +4,7 @@ namespace App\Services\Auth;
 use App\Models\User;
 use App\Models\UserVerify;
 use App\Models\TeacherProfile;
+use App\Models\StudentProfile;
 use App\Traits\ApiResponseTrait;
 use App\Repositories\UserRepository;
 use App\Traits\FileUploadTrait;
