@@ -1,0 +1,117 @@
+.
+├── App.jsx
+├── assets
+│   └── images
+│       ├── logo-dark.svg
+│       ├── logo.svg
+│       ├── social-google.svg
+│       └── users
+│           ├── avatar-1.jpg
+│           ├── avatar-2.jpg
+│           ├── avatar-3.jpg
+│           └── avatar-4.jpg
+├── components
+│   ├── Breadcrumbs.jsx
+│   ├── cards
+│   │   ├── MainCard.jsx
+│   │   ├── ReportCard.jsx
+│   │   ├── SmallFlatCard.jsx
+│   │   └── TrafficSourceCard.jsx
+│   ├── Loadable.jsx
+│   ├── loader
+│   │   └── index.jsx
+│   └── third-party
+│       ├── RevenuChartCard.jsx
+│       ├── SalesLineChartCard.jsx
+│       └── SimpleBar.jsx
+├── config.js
+├── enum.js
+├── index.css
+├── layouts
+│   ├── MainLayout
+│   │   ├── Drawer
+│   │   │   ├── DrawerContent
+│   │   │   │   ├── index.jsx
+│   │   │   │   └── Navigation
+│   │   │   │       ├── index.jsx
+│   │   │   │       ├── NavCollapse.jsx
+│   │   │   │       ├── NavGroup.jsx
+│   │   │   │       └── NavItem.jsx
+│   │   │   └── index.jsx
+│   │   ├── Header
+│   │   │   ├── index.jsx
+│   │   │   ├── Notification.jsx
+│   │   │   ├── Profile.jsx
+│   │   │   └── Search.jsx
+│   │   └── index.jsx
+│   └── minimalLayout
+│       └── index.jsx
+├── main.jsx
+├── menu-items
+│   ├── dashboard.js
+│   ├── index.js
+│   ├── other.js
+│   ├── pages.js
+│   └── ui-component.js
+├── routes
+│   ├── index.jsx
+│   ├── MainRoutes.jsx
+│   └── PagesRoutes.jsx
+├── sections
+│   ├── auth
+│   │   ├── AuthLogin.jsx
+│   │   └── AuthRegister.jsx
+│   └── dashboard
+│       └── chart
+│           ├── card-data
+│           │   └── revenue-card-data.jsx
+│           └── chart-data
+│               ├── revenue-chart-data.js
+│               └── sales-line-chart.js
+├── states
+│   └── menu.js
+├── themes
+│   ├── index.jsx
+│   ├── overrides
+│   │   ├── Avatar.js
+│   │   ├── CardActions.js
+│   │   ├── CardContent.js
+│   │   ├── CardHeader.js
+│   │   ├── Checkbox.js
+│   │   ├── Chip.js
+│   │   ├── FormHelperText.js
+│   │   ├── index.js
+│   │   ├── ListItemButton.js
+│   │   ├── ListItemIcon.js
+│   │   ├── ListItem.js
+│   │   ├── Paper.js
+│   │   ├── Popper.js
+│   │   └── SvgIcon.js
+│   ├── palette.js
+│   ├── shadow.js
+│   └── typography.js
+├── tree.txt
+├── utils
+│   ├── passwordStrength.js
+│   └── validationSchema.js
+├── views
+│   ├── auth
+│   │   ├── CommonAuthLayout.jsx
+│   │   ├── Login.jsx
+│   │   └── Register.jsx
+│   ├── components
+│   │   └── Typography.jsx
+│   ├── dashboard
+│   │   └── default
+│   │       ├── data
+│   │       │   ├── report-card-data.jsx
+│   │       │   ├── revenue-card-data.jsx
+│   │       │   ├── sales-line-chart-card-data.jsx
+│   │       │   ├── small-flat-card-data.jsx
+│   │       │   └── traffic-source-card-data.jsx
+│   │       └── index.jsx
+│   └── pages
+│       └── SamplePage.jsx
+└── vite-env.d.js
+
+34 directories, 81 files
