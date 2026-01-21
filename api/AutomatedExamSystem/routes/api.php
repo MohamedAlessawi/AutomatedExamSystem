@@ -17,6 +17,8 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\Teacher\StudentController as TeacherStudentController;
 
+use App\Http\Controllers\Admin\StatsController as AdminStatsController;
+use App\Http\Controllers\Teacher\StatsController as TeacherStatsController;
 
 
 
@@ -72,6 +74,13 @@ Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(functi
 
     Route::post('users', [AdminUserController::class, 'store']);
     Route::patch('users/{id}/toggle-active', [AdminUserController::class, 'toggleActive']);
+
+    Route::get('stats/exams/students', [AdminStatsController::class, 'studentsExamsStats']);
+    Route::get('stats/students/{studentId}/exams', [AdminStatsController::class, 'studentExamsStats']);
+});
+
+
+Route::middleware(['auth:sanctum', 'role:teacher'])->prefix('teacher')->group(function () {
 });
 
 
@@ -107,6 +116,10 @@ Route::middleware(['auth:sanctum', 'role:teacher'])->prefix('teacher')->group(fu
     // Objections
     Route::get('objections', [TeacherObjectionController::class, 'index']);
     Route::put('objections/{id}', [TeacherObjectionController::class, 'update']);
+
+    //Statistics
+    Route::get('stats/exams/students', [TeacherStatsController::class, 'studentsExamsStats']);
+
 });
 
 Route::middleware(['auth:sanctum', 'role:student'])->prefix('student')->group(function () {
