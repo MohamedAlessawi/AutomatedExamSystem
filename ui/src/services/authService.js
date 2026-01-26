@@ -74,6 +74,8 @@ export const resetPassword = async (resetData) => {
     throw error.response?.data || { message: 'Password reset failed' };
   }
 };
+
+// Admin - Get all teachers
 export const getTeachers = async () => {
   try {
     const response = await api.get('/admin/teachers');
@@ -83,7 +85,7 @@ export const getTeachers = async () => {
   }
 };
 
-// Get all students
+// Admin - Get all students
 export const getStudents = async () => {
   try {
     const response = await api.get('/admin/students');
@@ -93,7 +95,7 @@ export const getStudents = async () => {
   }
 };
 
-// Get teacher details by ID
+// Admin - Get teacher details by ID
 export const getTeacherById = async (id) => {
   try {
     const response = await api.get(`/admin/teachers/${id}`);
@@ -103,7 +105,7 @@ export const getTeacherById = async (id) => {
   }
 };
 
-// Get student details by ID
+// Admin - Get student details by ID
 export const getStudentById = async (id) => {
   try {
     const response = await api.get(`/admin/students/${id}`);
@@ -113,7 +115,7 @@ export const getStudentById = async (id) => {
   }
 };
 
-// Toggle user active status
+// Admin - Toggle user active status
 export const toggleUserStatus = async (id) => {
   try {
     const response = await api.patch(`/admin/users/${id}/toggle-active`);
@@ -122,30 +124,34 @@ export const toggleUserStatus = async (id) => {
     throw error.response?.data || { message: 'Failed to update user status' };
   }
 };
+
+// Admin - Get exam statistics
+export const getAdminExamStats = async () => {
+  try {
+    const response = await api.get('/admin/stats/exams/students');
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: 'Failed to fetch exam statistics' };
+  }
+};
+
 // Generic function to update a user (teacher or student)
 export const updateUser = async (id, userData) => {
   try {
-    // We need to determine if the user is a teacher or student to call the correct endpoint.
-    // For this example, let's assume userData contains the 'role'.
-    // A more robust solution might first fetch the user to determine their role.
     const role = userData.role;
     if (!role || !['teacher', 'student', 'admin'].includes(role)) {
       throw new Error('Invalid user role provided for update.');
     }
 
-    // Construct the correct endpoint URL
     const endpoint = `/admin/${role}s/${id}`;
-
     const response = await api.put(endpoint, userData);
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Failed to update user' };
   }
 };
-// src/services/authService.js
-// Add these functions to your existing authService.js file
 
-// Question Banks
+// Teacher - Question Banks
 export const getQuestionBanks = async () => {
   try {
     const response = await api.get('/teacher/question-banks');
@@ -191,7 +197,7 @@ export const getQuestionBankWithQuestions = async (id) => {
   }
 };
 
-// Questions
+// Teacher - Questions
 export const getQuestions = async (filters = {}) => {
   try {
     const response = await api.get('/teacher/questions', { params: filters });
@@ -237,7 +243,7 @@ export const deleteQuestion = async (id) => {
   }
 };
 
-// Exams
+// Teacher - Exams
 export const getExams = async () => {
   try {
     const response = await api.get('/teacher/exams');
@@ -283,7 +289,7 @@ export const deleteExam = async (id) => {
   }
 };
 
-// Objections
+// Teacher - Objections
 export const getObjections = async () => {
   try {
     const response = await api.get('/teacher/objections');
@@ -302,7 +308,7 @@ export const updateObjection = async (id, objectionData) => {
   }
 };
 
-// Teacher-Student Helper
+// Teacher - Student Helper
 export const getStudentsForTeacher = async () => {
   try {
     const response = await api.get('/teacher/students');
@@ -320,10 +326,8 @@ export const getStudentByIdForTeacher = async (id) => {
     throw error.response?.data || { message: 'Failed to fetch student details' };
   }
 };
-// src/services/authService.js
-// Add these student-specific functions to your existing authService.js file
 
-// Student Exam Endpoints
+// Student - Exam Endpoints
 export const getCurrentExams = async () => {
   try {
     const response = await api.get('/student/exams/current');
@@ -342,7 +346,6 @@ export const getExamHistory = async (filters = {}) => {
   }
 };
 
-// Fix this function to use the student endpoint
 export const getStudentExamById = async (id) => {
   try {
     const response = await api.get(`/student/exams/${id}`);
@@ -352,27 +355,17 @@ export const getStudentExamById = async (id) => {
   }
 };
 
-// Fix the submit exam function
-// src/services/authService.js
-// Update the submitExam function with better error handling
-
 export const submitExam = async (examData) => {
   try {
-    // Debug log to check what we're sending
     console.log('Submitting exam data:', examData);
-
     const response = await api.post('/student/exams/submit', examData);
     return response.data;
   } catch (error) {
-    // Log the full error response for debugging
     console.error('Submit exam error response:', error.response?.data);
 
-    // Extract meaningful error message
     if (error.response?.status === 422) {
-      // Validation errors
       const errors = error.response.data.errors;
       if (errors) {
-        // Flatten all error messages
         const errorMessages = Object.values(errors).flat();
         throw {
           message: errorMessages.join(', '),
@@ -393,9 +386,6 @@ export const submitObjection = async (objectionData) => {
     throw error.response?.data || { message: 'Failed to submit objection' };
   }
 };
-// src/services/authService.js
-
-// Add these functions to your existing authService
 
 export const getExamDetails = async (examAssignmentId) => {
   const response = await api.get(`/student/exams/${examAssignmentId}`);

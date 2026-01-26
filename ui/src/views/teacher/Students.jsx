@@ -6,8 +6,6 @@ import { useSnackbar } from 'notistack';
 // material-ui
 import {
     Box,
-    Card,
-    CardContent,
     CircularProgress,
     Grid,
     IconButton,
@@ -20,12 +18,12 @@ import {
     Typography,
     Avatar,
     TextField,
-    InputAdornment
+    InputAdornment,
+    Chip
 } from '@mui/material';
-
 // project imports
 import MainCard from 'components/cards/MainCard';
-import { getStudentsForTeacher, getStudentByIdForTeacher } from '../../services/authService';
+import { getStudentsForTeacher } from '../../services/authService';
 
 // assets
 import SearchIcon from '@mui/icons-material/Search';
@@ -65,7 +63,7 @@ const Students = () => {
     const filteredStudents = students.filter(student =>
         student.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         student.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        student.phone.includes(searchTerm)
+        (student.phone && student.phone.includes(searchTerm))
     );
 
     if (loading) {
@@ -130,7 +128,7 @@ const Students = () => {
                                         </TableCell>
                                         <TableCell>{student.full_name}</TableCell>
                                         <TableCell>{student.email}</TableCell>
-                                        <TableCell>{student.phone}</TableCell>
+                                        <TableCell>{student.phone || 'N/A'}</TableCell>
                                         <TableCell>
                                             <Chip
                                                 label={student.is_active ? 'Active' : 'Inactive'}
